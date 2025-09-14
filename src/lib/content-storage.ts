@@ -38,11 +38,7 @@ export class ContentStorage {
       // Put the content as a JSON blob
       await put(key, jsonContent, {
         access: 'public', // Makes it readable via URL
-        contentType: 'application/json',
-        metadata: {
-          updatedAt: new Date().toISOString(),
-          contentType,
-        }
+        contentType: 'application/json'
       });
 
       console.log(`✅ Content saved to Blob: ${key}`);
