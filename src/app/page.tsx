@@ -3,12 +3,17 @@ import FadeIn from "@/components/FadeIn";
 import { homeContent } from "../../content/home";
 import { getContentWithFallback } from "@/lib/content-storage";
 
+// Force dynamic rendering to avoid static generation caching
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   // Get dynamic content with fallback to static file
   const content = await getContentWithFallback('home', homeContent);
 
   // Debug logging
+  console.log('🏠 Homepage v2.0 - Dynamic Loading Active');
   console.log('Homepage content loaded:', JSON.stringify(content, null, 2));
+  console.log('Environment:', process.env.NODE_ENV, 'Vercel:', !!process.env.VERCEL);
   return (
     <div className="min-h-screen bg-[#050404] flex items-center justify-center px-4">
       <div className="text-center w-full max-w-md mx-auto">
