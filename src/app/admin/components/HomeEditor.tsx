@@ -11,6 +11,7 @@ interface HomeContent {
 }
 
 export default function HomeEditor() {
+  console.log('🏗️ HomeEditor v2.0 - WITH API LOADING initialized');
   const [content, setContent] = useState<HomeContent>(homeContent);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,8 @@ export default function HomeEditor() {
     const loadCurrentContent = async () => {
       try {
         console.log('🔄 Loading current content from API...');
-        const response = await fetch('/api/admin/content/home');
+        // Add cache-busting to ensure fresh data
+        const response = await fetch(`/api/admin/content/home?t=${Date.now()}`);
 
         if (response.ok) {
           const result = await response.json();
