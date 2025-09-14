@@ -16,18 +16,28 @@ export default function HomeEditor() {
 
   const handleSave = async () => {
     try {
+      console.log('🔄 Saving home content...', content);
+
       const response = await fetch('/api/admin/content/home', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(content),
       });
 
+      const result = await response.json();
+      console.log('📡 Save response:', result);
+
       if (response.ok) {
+        console.log('✅ Save successful!');
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
+      } else {
+        console.error('❌ Save failed:', result);
+        alert(`Failed to save: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Failed to save:', error);
+      console.error('❌ Save error:', error);
+      alert(`Error saving content: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 

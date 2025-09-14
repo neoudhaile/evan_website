@@ -1,21 +1,65 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import { ContentStorage } from '@/lib/content-storage';
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
-    // Create the TypeScript content
-    const tsContent = `export const bioContent = ${JSON.stringify(data, null, 2)};`;
+    // Validate the data structure
+    if (!data || typeof data !== 'object') {
+      return NextResponse.json(
+        { success: false, error: 'Invalid content data' },
+        { status: 400 }
+      );
+    }
 
-    // Write to the content file
-    const filePath = path.join(process.cwd(), 'content', 'bio.ts');
-    await writeFile(filePath, tsContent, 'utf8');
+    // Save to Blob storage
+    await ContentStorage.save('bio', data);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      message: 'Bio content saved successfully',
+      timestamp: new Date().toISOString()
+    });
+
   } catch (error) {
     console.error('Error saving bio content:', error);
-    return NextResponse.json({ success: false, error: 'Failed to save content' }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to save content'
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    // Load content from Blob storage
+    const content = await ContentStorage.load('bio');
+
+    if (!content) {
+      return NextResponse.json(
+        { success: false, error: 'Content not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      content,
+      source: 'blob'
+    });
+
+  } catch (error) {
+    console.error('Error loading bio content:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to load content'
+      },
+      { status: 500 }
+    );
   }
 }
