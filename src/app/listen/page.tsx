@@ -48,7 +48,7 @@ export default function Listen() {
         <FadeIn delay={900} direction="up">
           <div className="text-center mt-12">
             <p className="body-text text-gray-400 text-center px-4">
-              Check out Evan's latest recordings and performances on YouTube
+              Check out Evan&apos;s latest recordings and performances on YouTube
             </p>
           </div>
         </FadeIn>

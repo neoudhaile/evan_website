@@ -93,13 +93,15 @@ export default function Contact() {
         throw new Error(`EmailJS returned status: ${response.status}`);
       }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to send email:', error);
-      console.error('Error details:', {
-        message: error.message,
-        stack: error.stack,
-        name: error.name
-      });
+      if (error instanceof Error) {
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        });
+      }
       setStatus('error');
     } finally {
       setIsLoading(false);

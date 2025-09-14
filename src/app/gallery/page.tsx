@@ -116,9 +116,9 @@ export default function Gallery() {
             const delay = 300 + (row * 200) + (col * 100);
             
             return (
-              <ScrollFadeIn 
-                key={image.id} 
-                delay={0} 
+              <ScrollFadeIn
+                key={image.id}
+                delay={delay}
                 direction="up"
               >
                 <div
