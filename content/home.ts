@@ -1,6 +1,6 @@
 export const homeContent = {
-  "title": "TEST - 3:55:57 PM",
-  "subtitle": "Test subtitle from API",
-  "heroImage": "/test.jpg",
-  "heroImageAlt": "Test image"
+  title: "Evan Michael Palermo",
+  subtitle: "Drummer, Educator, Promoter",
+  heroImage: "/homepage/Paris, France (July 2025).JPG",
+  heroImageAlt: "Evan Michael Palermo in Paris, France"
 };
