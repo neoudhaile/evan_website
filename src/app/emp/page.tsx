@@ -32,7 +32,7 @@ export default function EMP() {
         <FadeIn delay={600} direction="up">
           <div className="bg-[#030202] rounded-lg shadow-md p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <p className="body-text text-gray-300 leading-relaxed text-center">
-              EMP Music is an Ohio-based consultation service for musicians. EMP Music's goal is to help young artists 
+              EMP Music is an Ohio-based consultation service for musicians. EMP Music&apos;s goal is to help young artists 
               navigate the modern music industry and gain traction through live performances. Services offered include 
               live show promotion and logistical management, social media promotion, booking, individual promotion 
               consultation, and more.
