@@ -38,7 +38,8 @@ export class ContentStorage {
       // Put the content as a JSON blob
       await put(key, jsonContent, {
         access: 'public', // Makes it readable via URL
-        contentType: 'application/json'
+        contentType: 'application/json',
+        allowOverwrite: true // Allow updating existing content
       });
 
       console.log(`✅ Content saved to Blob: ${key}`);
@@ -62,16 +63,17 @@ export class ContentStorage {
       // Production: load from Blob storage
       const key = this.getContentKey(contentType);
 
-      // First check if the blob exists
+      // First check if the blob exists and get the URL
+      let blobInfo;
       try {
-        await head(key);
+        blobInfo = await head(key);
       } catch {
         console.log(`📝 No Blob content found for ${contentType}, will use fallback`);
         return null;
       }
 
-      // Fetch the content
-      const response = await fetch(`https://vercel.com/.well-known/vercel/blob/${key}`);
+      // Fetch the content using the blob URL
+      const response = await fetch(blobInfo.url);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
