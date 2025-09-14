@@ -29,8 +29,10 @@ export default function HomeEditor() {
           console.log('📡 Loaded content:', result);
 
           if (result.success && result.content) {
+            console.log('🔄 Setting admin content to:', JSON.stringify(result.content, null, 2));
             setContent(result.content);
             console.log('✅ Content loaded successfully');
+            console.log('🔍 Current state after load:', JSON.stringify(result.content, null, 2));
           }
         } else {
           console.log('⚠️ API returned error, using static content');
@@ -45,6 +47,29 @@ export default function HomeEditor() {
 
     loadCurrentContent();
   }, []);
+
+  const handleRefresh = async () => {
+    console.log('🔄 Manual refresh triggered');
+    setLoading(true);
+
+    try {
+      const response = await fetch(`/api/admin/content/home?t=${Date.now()}`);
+      if (response.ok) {
+        const result = await response.json();
+        console.log('📡 Manual refresh - loaded content:', result);
+
+        if (result.success && result.content) {
+          console.log('🔄 Manual refresh - setting content to:', JSON.stringify(result.content, null, 2));
+          setContent(result.content);
+          console.log('✅ Manual refresh successful');
+        }
+      }
+    } catch (error) {
+      console.error('❌ Manual refresh error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -89,12 +114,21 @@ export default function HomeEditor() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="h2 text-white">Homepage Content</h2>
-        <button
-          onClick={handleSave}
-          className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors body-text"
-        >
-          {saved ? '✓ Saved' : 'Save Changes'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleRefresh}
+            disabled={loading}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors body-text disabled:opacity-50"
+          >
+            {loading ? '🔄' : '↻ Refresh'}
+          </button>
+          <button
+            onClick={handleSave}
+            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors body-text"
+          >
+            {saved ? '✓ Saved' : 'Save Changes'}
+          </button>
+        </div>
       </div>
 
       <div className="space-y-6">
