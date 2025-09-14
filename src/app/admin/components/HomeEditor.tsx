@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { homeContent } from '../../../../content/home';
 
 interface HomeContent {
@@ -13,6 +13,36 @@ interface HomeContent {
 export default function HomeEditor() {
   const [content, setContent] = useState<HomeContent>(homeContent);
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Load current content from API when component mounts
+  useEffect(() => {
+    const loadCurrentContent = async () => {
+      try {
+        console.log('🔄 Loading current content from API...');
+        const response = await fetch('/api/admin/content/home');
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log('📡 Loaded content:', result);
+
+          if (result.success && result.content) {
+            setContent(result.content);
+            console.log('✅ Content loaded successfully');
+          }
+        } else {
+          console.log('⚠️ API returned error, using static content');
+        }
+      } catch (error) {
+        console.error('❌ Error loading content:', error);
+        console.log('⚠️ Using static content as fallback');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCurrentContent();
+  }, []);
 
   const handleSave = async () => {
     try {
@@ -40,6 +70,18 @@ export default function HomeEditor() {
       alert(`Error saving content: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
+
+  if (loading) {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="h2 text-white">Homepage Content</h2>
+          <div className="text-gray-400 body-text">Loading...</div>
+        </div>
+        <div className="text-center text-gray-400 body-text py-8">Loading current content...</div>
+      </div>
+    );
+  }
 
   return (
     <div>
