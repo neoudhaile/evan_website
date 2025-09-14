@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ContentStorage } from '@/lib/content-storage';
-import { homeContent } from '@/../../content/home';
+import { homeContent } from '@/content/home';
 
 export async function GET() {
   try {
@@ -10,10 +10,10 @@ export async function GET() {
       vercel: !!process.env.VERCEL,
       tests: {
         staticContent: homeContent,
-        blobContent: null as any,
+        blobContent: null as unknown,
         blobExists: false,
         blobError: null as string | null,
-        fallbackContent: null as any
+        fallbackContent: null as unknown
       }
     };
 

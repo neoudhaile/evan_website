@@ -2,8 +2,14 @@
 
 import { useState } from 'react';
 
+interface TestResult {
+  type: 'diagnostics' | 'save-test' | 'error';
+  data?: unknown;
+  error?: string;
+}
+
 export default function TestAdmin() {
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<TestResult | null>(null);
   const [loading, setLoading] = useState(false);
 
   const runDiagnostics = async () => {
@@ -79,8 +85,8 @@ export default function TestAdmin() {
         <div className="mt-8 bg-yellow-900 border border-yellow-600 rounded p-4">
           <h3 className="text-yellow-300 mb-2">🔬 Debugging Strategy:</h3>
           <ul className="text-yellow-200 space-y-1 text-sm">
-            <li>1. <strong>If Blob content is null:</strong> Content isn't being saved to Blob properly</li>
-            <li>2. <strong>If Blob content exists but doesn't match:</strong> Save/load mismatch</li>
+            <li>1. <strong>If Blob content is null:</strong> Content isn&apos;t being saved to Blob properly</li>
+            <li>2. <strong>If Blob content exists but doesn&apos;t match:</strong> Save/load mismatch</li>
             <li>3. <strong>If fallback content equals static:</strong> Homepage is using static files instead of Blob</li>
             <li>4. <strong>If environment shows local:</strong> Running locally, should use filesystem fallback</li>
           </ul>
