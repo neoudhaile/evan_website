@@ -1,0 +1,13 @@
+export const bioContent = {
+  title: "Bio",
+  image: "/gallery/emp-coda-june-2025.jpg",
+  imageAlt: "Evan Michael Palermo performing at CODA in June 2025",
+  paragraphs: [
+    "Evan Michael Palermo is a Cleveland based musician and educator. Currently a fourth-year student at Bowling Green State University, he is pursuing dual studies in the College of Musical Arts and the Schmidhorst College of Business while maintaining an active and diverse performance career.",
+    "Dating back to his early years, Evan has been a musician through and through. Since starting percussion at the age of 10. In high school, Evan was a three-year member of the Cleveland Youth Wind Symphony, where he performed multiple concerts at Severance Hall. Evan would focus primarily on drum kit during his later years of high school when he started to join the Cleveland music scene.",
+    "Through the music, Evan has been heard in major cities such as New York, Los Angeles, Cleveland, Toledo, Detroit, Paris, Berlin, Sicily, and more. Evan has also had the opportunity to study, create, and perform with some of the best in the craft such as Marvin \"Smitty\" Smith, John Riley, Ulysses Owens Jr, Stephan Crump, Jacques Lesure, Steve Kortyka, David Bixler, Dan Piccolo, Harrison Roth and many more.",
+    "Since attending Bowling Green State University, Evan has worked primarily as a freelance musician. Evan has worked freelance for major establishments such as Cedar Point, while continuing to be deeply rooted in the Cleveland and Toledo music scene. Evan can be heard regularly through his projects in the Cleveland theatre scene as a freelance percussionist, the Cleveland rock scene through Rellick, and the Ohio jazz scene through EMP.",
+    "Evan has been heard in many Ohio and Midwest venues. As a bandleader, Evan has brought groups to Blu Jazz + (Akron, OH), The Bop Stop (Cleveland, OH), Merriman's Playhouse (South Bend, IN), Arlyn's Good Beer (Bowling Green, OH), Black Swamp Arts Festival (Bowling Green, OH), and many more, all while holding a year long partial residency at The Renaissance Hotel in downtown Toledo, Ohio. As a sideman/freelance musician, Evan has performed at Severance Hall (Cleveland, OH), Valentine Theatre (Toledo, OH), Near West Theatre (Cleveland, OH), plus more.",
+    "Grateful for the support of his mentors and community, Evan is proud to be a recipient of multiple BGSU performance scholarships, branch scholarships from the Ian's Legacy Foundation, and the 2023 Percussive Arts Society Ohio Chapter – Bill Platt PASIC Scholarship."
+  ]
+};

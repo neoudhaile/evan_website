@@ -1,0 +1,13 @@
+export const navigationContent = {
+  logo: "/emp_logo/EMP Logo.PNG",
+  logoAlt: "EMP Logo",
+  logoLink: "/",
+  menuItems: [
+    { name: "Shows", href: "/shows" },
+    { name: "Bio", href: "/bios" },
+    { name: "EMP Music", href: "/emp" },
+    { name: "Listen", href: "/listen" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Contact", href: "/contact" }
+  ]
+};

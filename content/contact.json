@@ -1,0 +1,23 @@
+{
+  "title": "Contact",
+  "description": "Please send all questions or service inquiries to",
+  "email": "evanpalermo.booking@gmail.com",
+  "additionalText": ", or leave a message below:",
+  "socialLinks": [
+    {
+      "name": "Instagram",
+      "href": "https://www.instagram.com/evan_palermo/",
+      "bgColor": "bg-gradient-to-r from-purple-500 to-pink-500"
+    },
+    {
+      "name": "Facebook",
+      "href": "https://www.facebook.com/evan.palermo.54/",
+      "bgColor": "bg-blue-600"
+    },
+    {
+      "name": "TikTok",
+      "href": "https://www.tiktok.com/@evanpalermo?lang=en",
+      "bgColor": "bg-black"
+    }
+  ]
+}

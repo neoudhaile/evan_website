@@ -1,0 +1,18 @@
+export const empContent = {
+  title: "EMP Music",
+  logo: "/emp_logo/EMP Logo.PNG",
+  logoAlt: "EMP Music Logo",
+  introduction: "EMP Music is an Ohio-based consultation service for musicians. EMP Music's goal is to help young artists navigate the modern music industry and gain traction through live performances. Services offered include live show promotion and logistical management, social media promotion, booking, individual promotion consultation, and more.",
+  services: [
+    {
+      title: "Live Show Promotion & Booking",
+      description: "EMP Music offers promotional services for bands both local and touring to Ohio-based markets such as Cleveland and Toledo. EMP Music helps acts get in contact with venues and manage negotiations for the act. Along with this, EMP Music helps create sensible bills to maximize attendance and success of the event."
+    },
+    {
+      title: "Social Media Promotion & Consultation",
+      description: "EMP Music also offers consultation for emerging artists who are looking to build their social following through media promotion. EMP Music helps artists create interactive content to grow their social media presence while engaging with fans and followers. Along with that, EMP Music helps artists stay on a consistent schedule by researching demographics that align with artists and offer unique ideas to stay present in the ever-changing social media trends."
+    }
+  ],
+  contactButtonText: "Contact EMP Music",
+  contactButtonLink: "/contact"
+};
