@@ -70,7 +70,7 @@ export default function TestBlob() {
           <div className="bg-[#030202] rounded p-4">
             <h3 className="text-white mb-4">
               {result.type === 'save' ? '💾 Save Test' : '📖 Load Test'}
-              {result.status && ` (${result.status})`}
+              {result.status && ` (${String(result.status)})`}
             </h3>
             <pre className="text-green-400 text-sm overflow-x-auto">
               {JSON.stringify(result, null, 2)}
