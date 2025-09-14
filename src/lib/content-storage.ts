@@ -130,7 +130,17 @@ export async function getContentWithFallback<T>(
   // Try to load from Blob first
   const blobContent = await ContentStorage.load(contentType);
 
+  console.log(`🔍 Content loading debug:`, {
+    contentType,
+    blobContentExists: !!blobContent,
+    blobContent: blobContent ? JSON.stringify(blobContent) : null,
+    fallbackData: JSON.stringify(fallbackData),
+    environment: process.env.NODE_ENV,
+    vercel: !!process.env.VERCEL
+  });
+
   if (blobContent) {
+    console.log(`🔥 Using BLOB content for ${contentType}`);
     return blobContent as T;
   }
 

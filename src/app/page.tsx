@@ -6,6 +6,9 @@ import { getContentWithFallback } from "@/lib/content-storage";
 export default async function Home() {
   // Get dynamic content with fallback to static file
   const content = await getContentWithFallback('home', homeContent);
+
+  // Debug logging
+  console.log('Homepage content loaded:', JSON.stringify(content, null, 2));
   return (
     <div className="min-h-screen bg-[#050404] flex items-center justify-center px-4">
       <div className="text-center w-full max-w-md mx-auto">
