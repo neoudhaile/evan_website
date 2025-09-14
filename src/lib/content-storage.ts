@@ -4,7 +4,7 @@ import path from 'path';
 
 // Types for our content
 export interface ContentData {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export class ContentStorage {

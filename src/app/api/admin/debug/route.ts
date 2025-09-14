@@ -3,7 +3,7 @@ import { writeFile, readdir, access } from 'fs/promises';
 import path from 'path';
 import { constants } from 'fs';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const diagnostics = {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'unknown',

@@ -19,7 +19,7 @@ interface DiagnosticResult {
 
 export default function AdminDebug() {
   const [diagnostics, setDiagnostics] = useState<DiagnosticResult | null>(null);
-  const [writeTest, setWriteTest] = useState<any>(null);
+  const [writeTest, setWriteTest] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(false);
 
   const runDiagnostics = async () => {
