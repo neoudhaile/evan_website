@@ -92,7 +92,7 @@ export default function GalleryEditor() {
     }
   };
 
-  const updateImageMetadata = (filename: string, field: keyof GalleryMetadata, value: any) => {
+  const updateImageMetadata = (filename: string, field: keyof GalleryMetadata, value: string | number | boolean) => {
     setContent(prev => ({
       ...prev,
       imageMetadata: {
@@ -160,11 +160,11 @@ export default function GalleryEditor() {
               <div>
                 <h4 className="body-text text-blue-300 font-medium mb-2">How to upload images:</h4>
                 <ol className="caption text-blue-200 space-y-1 list-decimal list-inside">
-                  <li>Click "Upload to GitHub" below</li>
-                  <li>Drag & drop your images to GitHub's upload area</li>
+                  <li>Click &quot;Upload to GitHub&quot; below</li>
+                  <li>Drag &amp; drop your images to GitHub&apos;s upload area</li>
                   <li>Add a commit message (optional)</li>
-                  <li>Click "Commit changes"</li>
-                  <li>Return here and click "Refresh" to see new images</li>
+                  <li>Click &quot;Commit changes&quot;</li>
+                  <li>Return here and click &quot;Refresh&quot; to see new images</li>
                   <li>Edit titles and descriptions below</li>
                 </ol>
               </div>

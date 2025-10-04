@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+
+interface GalleryMetadata {
+  title?: string;
+  description?: string;
+  order?: number;
+  visible?: boolean;
+}
 import { ContentStorage } from '@/lib/content-storage';
 
 export async function GET() {
@@ -13,12 +20,17 @@ export async function GET() {
       try {
         const { galleryContent } = await import('../../../../content/gallery');
         galleryMetadata = galleryContent;
-      } catch (error) {
+      } catch {
         console.log('No static gallery content found, using empty metadata');
       }
     }
 
-    const metadata = galleryMetadata?.imageMetadata || {};
+    const metadata = galleryMetadata?.imageMetadata || ({} as Record<string, GalleryMetadata>);
+
+    // Helper function to safely get metadata
+    const getFileMetadata = (filename: string): GalleryMetadata => {
+      return (metadata as Record<string, GalleryMetadata>)[filename] || ({} as GalleryMetadata);
+    };
 
     // Get the path to the public/gallery directory
     const galleryDir = path.join(process.cwd(), 'public', 'gallery');
@@ -40,7 +52,7 @@ export async function GET() {
     // Transform filenames with metadata overlay
     const galleryData = imageFiles
       .map((filename, index) => {
-        const fileMetadata = metadata[filename] || {};
+        const fileMetadata = getFileMetadata(filename);
         return {
           id: index + 1,
           filename: filename,

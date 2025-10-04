@@ -274,7 +274,7 @@ export default function Contact() {
           <div className="w-full lg:flex-shrink-0 lg:w-auto">
             <FadeIn delay={900} direction="right">
               <div className="space-y-4 sm:space-y-6">
-                {content.socialLinks.map((link, index) => (
+                {content.socialLinks.map((link) => (
                   <a
                     key={link.name}
                     href={link.href}
