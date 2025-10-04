@@ -4,6 +4,10 @@ import { useState } from 'react';
 import HomeEditor from './HomeEditor';
 import BioEditor from './BioEditor';
 import ShowsEditor from './ShowsEditor';
+import EMPEditor from './EMPEditor';
+import ListenEditor from './ListenEditor';
+import ContactEditor from './ContactEditor';
+import GalleryEditor from './GalleryEditor';
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -32,6 +36,14 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         return <BioEditor />;
       case 'shows':
         return <ShowsEditor />;
+      case 'emp':
+        return <EMPEditor />;
+      case 'listen':
+        return <ListenEditor />;
+      case 'contact':
+        return <ContactEditor />;
+      case 'gallery':
+        return <GalleryEditor />;
       default:
         return (
           <div className="text-center py-12">

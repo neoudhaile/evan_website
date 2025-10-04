@@ -11,7 +11,6 @@ interface HomeContent {
 }
 
 export default function HomeEditor() {
-  console.log('🏗️ HomeEditor v2.0 - WITH API LOADING initialized');
   const [content, setContent] = useState<HomeContent>(homeContent);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -20,26 +19,16 @@ export default function HomeEditor() {
   useEffect(() => {
     const loadCurrentContent = async () => {
       try {
-        console.log('🔄 Loading current content from API...');
-        // Add cache-busting to ensure fresh data
         const response = await fetch(`/api/admin/content/home?t=${Date.now()}`);
 
         if (response.ok) {
           const result = await response.json();
-          console.log('📡 Loaded content:', result);
-
           if (result.success && result.content) {
-            console.log('🔄 Setting admin content to:', JSON.stringify(result.content, null, 2));
             setContent(result.content);
-            console.log('✅ Content loaded successfully');
-            console.log('🔍 Current state after load:', JSON.stringify(result.content, null, 2));
           }
-        } else {
-          console.log('⚠️ API returned error, using static content');
         }
       } catch (error) {
-        console.error('❌ Error loading content:', error);
-        console.log('⚠️ Using static content as fallback');
+        console.error('Error loading Home content:', error);
       } finally {
         setLoading(false);
       }
@@ -49,23 +38,18 @@ export default function HomeEditor() {
   }, []);
 
   const handleRefresh = async () => {
-    console.log('🔄 Manual refresh triggered');
     setLoading(true);
 
     try {
       const response = await fetch(`/api/admin/content/home?t=${Date.now()}`);
       if (response.ok) {
         const result = await response.json();
-        console.log('📡 Manual refresh - loaded content:', result);
-
         if (result.success && result.content) {
-          console.log('🔄 Manual refresh - setting content to:', JSON.stringify(result.content, null, 2));
           setContent(result.content);
-          console.log('✅ Manual refresh successful');
         }
       }
     } catch (error) {
-      console.error('❌ Manual refresh error:', error);
+      console.error('Error refreshing Home content:', error);
     } finally {
       setLoading(false);
     }
@@ -73,8 +57,6 @@ export default function HomeEditor() {
 
   const handleSave = async () => {
     try {
-      console.log('🔄 Saving home content...', content);
-
       const response = await fetch('/api/admin/content/home', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -82,18 +64,15 @@ export default function HomeEditor() {
       });
 
       const result = await response.json();
-      console.log('📡 Save response:', result);
 
       if (response.ok) {
-        console.log('✅ Save successful!');
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
       } else {
-        console.error('❌ Save failed:', result);
         alert(`Failed to save: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('❌ Save error:', error);
+      console.error('Error saving Home content:', error);
       alert(`Error saving content: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };

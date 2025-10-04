@@ -61,8 +61,8 @@ export default function Bios() {
             {/* Text column - fills space equal to image height */}
             <FadeIn delay={300} direction="left">
               <div className="flex-1">
-                <div className="h-96 overflow-hidden">
-                  {bioContent.paragraphs.slice(0, 4).map((paragraph, index) => (
+                <div className="min-h-96">
+                  {bioContent.paragraphs.slice(0, 2).map((paragraph, index) => (
                     <p key={index} className="body-text text-gray-300 leading-relaxed mb-6 text-justify">
                       {paragraph}
                     </p>
@@ -90,8 +90,8 @@ export default function Bios() {
           {/* Overflow text - full width below */}
           <FadeIn delay={900} direction="up">
             <div className="max-w-4xl mx-auto">
-              {bioContent.paragraphs.slice(4).map((paragraph, index) => (
-                <p key={index} className={`body-text text-gray-300 leading-relaxed text-justify ${index < bioContent.paragraphs.slice(4).length - 1 ? 'mb-6' : ''}`}>
+              {bioContent.paragraphs.slice(2).map((paragraph, index) => (
+                <p key={index} className={`body-text text-gray-300 leading-relaxed text-justify ${index < bioContent.paragraphs.slice(2).length - 1 ? 'mb-6' : ''}`}>
                   {paragraph}
                 </p>
               ))}

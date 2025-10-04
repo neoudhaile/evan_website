@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { bioContent } from '../../../../content/bio';
 
 interface BioContent {
@@ -13,6 +13,47 @@ interface BioContent {
 export default function BioEditor() {
   const [content, setContent] = useState<BioContent>(bioContent);
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Load current content from API when component mounts
+  useEffect(() => {
+    const loadCurrentContent = async () => {
+      try {
+        const response = await fetch(`/api/admin/content/bio?t=${Date.now()}`);
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success && result.content) {
+            setContent(result.content);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading Bio content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCurrentContent();
+  }, []);
+
+  const handleRefresh = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(`/api/admin/content/bio?t=${Date.now()}`);
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.content) {
+          setContent(result.content);
+        }
+      }
+    } catch (error) {
+      console.error('Error refreshing Bio content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -22,12 +63,17 @@ export default function BioEditor() {
         body: JSON.stringify(content),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
+      } else {
+        alert(`Failed to save: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Failed to save:', error);
+      console.error('Error saving Bio content:', error);
+      alert(`Error saving content: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -37,16 +83,37 @@ export default function BioEditor() {
     setContent({ ...content, paragraphs: newParagraphs });
   };
 
+  if (loading) {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="h2 text-white">Biography Content</h2>
+          <div className="text-gray-400 body-text">Loading...</div>
+        </div>
+        <div className="text-center text-gray-400 body-text py-8">Loading current Bio content...</div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="h2 text-white">Biography Content</h2>
-        <button
-          onClick={handleSave}
-          className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors body-text"
-        >
-          {saved ? '✓ Saved' : 'Save Changes'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleRefresh}
+            disabled={loading}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors body-text disabled:opacity-50"
+          >
+            {loading ? '🔄' : '↻ Refresh'}
+          </button>
+          <button
+            onClick={handleSave}
+            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors body-text"
+          >
+            {saved ? '✓ Saved' : 'Save Changes'}
+          </button>
+        </div>
       </div>
 
       <div className="space-y-6">

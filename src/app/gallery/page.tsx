@@ -10,6 +10,9 @@ interface GalleryImage {
   filename: string;
   src: string;
   title: string;
+  description?: string;
+  order: number;
+  visible: boolean;
 }
 
 export default function Gallery() {
@@ -17,10 +20,16 @@ export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gallerySettings, setGallerySettings] = useState({
+    title: 'Gallery',
+    subtitle: '',
+    gridColumns: 2
+  });
 
-  // Fetch images from API when component mounts
+  // Fetch images and settings from API when component mounts
   useEffect(() => {
-    fetch('/api/gallery')
+    // Load gallery images
+    const loadGallery = fetch('/api/gallery')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch gallery images');
@@ -29,11 +38,32 @@ export default function Gallery() {
       })
       .then((data: GalleryImage[]) => {
         setGalleryImages(data);
-        setLoading(false);
+      });
+
+    // Load gallery settings
+    const loadSettings = fetch('/api/admin/content/gallery')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.content) {
+          setGallerySettings({
+            title: data.content.title || 'Gallery',
+            subtitle: data.content.subtitle || '',
+            gridColumns: data.content.gridColumns || 2
+          });
+        }
       })
       .catch(error => {
-        console.error('Error loading gallery:', error);
-        setError(error.message);
+        console.error('Error loading gallery settings:', error);
+        // Continue with defaults
+      });
+
+    // Wait for both requests
+    Promise.allSettled([loadGallery, loadSettings])
+      .then((results) => {
+        const galleryResult = results[0];
+        if (galleryResult.status === 'rejected') {
+          setError(galleryResult.reason?.message || 'Failed to load gallery');
+        }
         setLoading(false);
       });
   }, []);
@@ -102,13 +132,25 @@ export default function Gallery() {
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-16">
         {/* Main Header */}
         <FadeIn delay={0} direction="up">
-          <h1 className="h1 text-white text-center mb-8 sm:mb-12">
-            Gallery
-          </h1>
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="h1 text-white">
+              {gallerySettings.title}
+            </h1>
+            {gallerySettings.subtitle && (
+              <p className="body-text text-gray-300 mt-2">
+                {gallerySettings.subtitle}
+              </p>
+            )}
+          </div>
         </FadeIn>
 
-        {/* Gallery Grid - 2 Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+        {/* Gallery Grid - Dynamic Columns */}
+        <div className={`grid gap-4 sm:gap-6 lg:gap-8 ${
+          gallerySettings.gridColumns === 1 ? 'grid-cols-1' :
+          gallerySettings.gridColumns === 2 ? 'grid-cols-1 sm:grid-cols-2' :
+          gallerySettings.gridColumns === 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
+          'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+        }`}>
           {galleryImages.map((image, index) => {
             // Calculate delay based on position: left to right, then next row
             const row = Math.floor(index / 2);
