@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { showsContent } from '../../../../content/shows';
 
 interface Show {
@@ -18,6 +18,27 @@ interface ShowsContent {
 export default function ShowsEditor() {
   const [content, setContent] = useState<ShowsContent>(showsContent);
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadContent();
+  }, []);
+
+  const loadContent = async () => {
+    try {
+      const response = await fetch('/api/admin/content/shows');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.content) {
+          setContent(data.content);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -60,11 +81,29 @@ export default function ShowsEditor() {
     setContent({ ...content, shows: newShows });
   };
 
+  if (loading) {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="h2 text-white">Show Dates</h2>
+          <div className="text-gray-400 body-text">Loading...</div>
+        </div>
+        <div className="text-center text-gray-400 body-text py-8">Loading current Shows content...</div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="h2 text-white">Show Dates</h2>
         <div className="flex gap-2">
+          <button
+            onClick={loadContent}
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors body-text"
+          >
+            🔄 Refresh
+          </button>
           <button
             onClick={addShow}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors body-text"
