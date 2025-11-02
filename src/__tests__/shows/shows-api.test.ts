@@ -9,7 +9,7 @@ jest.mock('@/lib/content-storage', () => ({
   }
 }))
 
-const { ContentStorage } = require('@/lib/content-storage')
+import { ContentStorage } from '@/lib/content-storage'
 
 describe('/api/admin/content/shows', () => {
   beforeEach(() => {
